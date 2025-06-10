@@ -42,8 +42,10 @@ You'll add this directly in Railway in step 3.
 2. **Configure API Service**
    - Railway will detect the monorepo structure
    - Create a new service and set the root directory to `apps/api`
-   - Or manually set build command: `cd apps/api && pnpm install && pnpm build`
-   - Set start command: `cd apps/api && pnpm start`
+   - **IMPORTANT**: In Railway dashboard, go to Settings → Build and set:
+     - **Builder**: Nixpacks (NOT Docker)
+     - **Build Command**: Leave blank (will auto-detect from nixpacks.toml)
+     - **Start Command**: Leave blank (will auto-detect from nixpacks.toml)
 
 3. **Add Environment Variables for API**
    ```bash
@@ -79,8 +81,10 @@ You'll add this directly in Railway in step 3.
 1. **Create Web Service**
    - In the same project, add a new service
    - Set root directory to `apps/web`
-   - Or manually set build command: `cd apps/web && pnpm install && pnpm build`
-   - Set start command: `cd apps/web && pnpm start`
+   - **IMPORTANT**: In Railway dashboard, go to Settings → Build and set:
+     - **Builder**: Nixpacks (NOT Docker)
+     - **Build Command**: Leave blank (will auto-detect from nixpacks.toml)
+     - **Start Command**: Leave blank (will auto-detect from nixpacks.toml)
 
 2. **Add Environment Variables for Web**
    ```bash

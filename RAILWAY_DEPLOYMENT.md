@@ -9,6 +9,14 @@ This guide will help you deploy your Employee Time Clock System v2 to Railway fo
 - Redis Cloud account (free tier available) or use Railway's Redis addon
 - GitHub repository with your code
 
+## 🔒 **SECURITY WARNING**
+
+**NEVER commit real MongoDB URIs, API keys, or passwords to Git!** 
+- All connection strings in this guide are **EXAMPLES ONLY**
+- Replace `YOUR_USERNAME`, `YOUR_PASSWORD`, `YOUR_CLUSTER` with your actual values
+- Only add real credentials directly in Railway's environment variables dashboard
+- Use `.env` files locally (these are gitignored)
+
 ## 🏗️ Architecture Overview
 
 Your application consists of:
@@ -26,7 +34,7 @@ Your application consists of:
 2. Create a new cluster (free tier is sufficient)
 3. Create a database user
 4. Whitelist Railway IPs (or use 0.0.0.0/0 for simplicity)
-5. Get your connection string: `mongodb+srv://username:password@cluster.mongodb.net/timeclock`
+5. Get your connection string: `mongodb+srv://YOUR_USERNAME:YOUR_PASSWORD@YOUR_CLUSTER.mongodb.net/timeclock`
 
 #### Redis (Railway Addon)
 You'll add this directly in Railway in step 3.
@@ -49,8 +57,8 @@ You'll add this directly in Railway in step 3.
 
 3. **Add Environment Variables for API**
    ```bash
-   # Database
-   MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/timeclock
+   # Database (replace with YOUR actual MongoDB Atlas connection string)
+   MONGODB_URI=mongodb+srv://YOUR_USERNAME:YOUR_PASSWORD@YOUR_CLUSTER.mongodb.net/timeclock
    
    # JWT (generate a secure random string)
    JWT_SECRET=your-super-secure-jwt-secret-key-minimum-32-characters

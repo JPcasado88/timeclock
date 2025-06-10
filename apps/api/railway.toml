@@ -1,0 +1,18 @@
+[build]
+builder = "nixpacks"
+
+[phases.setup]
+nixPkgs = ["nodejs_18", "pnpm"]
+
+[phases.install]
+cmd = "pnpm install --frozen-lockfile"
+
+[phases.build]
+cmd = "pnpm build"
+
+[start]
+cmd = "pnpm start"
+
+[deploy]
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 10 

@@ -7,7 +7,7 @@ import Link from 'next/link'
 export default function ClockPage() {
   const [employeeId, setEmployeeId] = useState('')
   const [isScanning, setIsScanning] = useState(false)
-  const [clockedInEmployees] = useState(['EMP002']) // Mock data
+  const [clockedInEmployees, setClockedInEmployees] = useState(['EMP002']) // Mock data - EMP002 starts clocked in
 
   const handleManualClock = async (action: 'in' | 'out') => {
     if (!employeeId.trim()) {
@@ -18,6 +18,16 @@ export default function ClockPage() {
     // Simulate API call
     try {
       await new Promise(resolve => setTimeout(resolve, 1000))
+      
+      // Update the clocked in employees list
+      if (action === 'in') {
+        if (!clockedInEmployees.includes(employeeId)) {
+          setClockedInEmployees(prev => [...prev, employeeId])
+        }
+      } else {
+        setClockedInEmployees(prev => prev.filter(emp => emp !== employeeId))
+      }
+      
       toast.success(`Employee ${employeeId} clocked ${action} successfully!`)
       setEmployeeId('')
     } catch (error) {
@@ -32,9 +42,17 @@ export default function ClockPage() {
     // For demo purposes, click the "Simulate Scan" button that will appear
   }
 
-  const handleSimulateScan = (employeeId: string) => {
-    const isClockingIn = !clockedInEmployees.includes(employeeId)
-    toast.success(`QR Code scanned! Employee ${employeeId} clocked ${isClockingIn ? 'in' : 'out'}!`)
+  const handleSimulateScan = (scannedEmployeeId: string) => {
+    const isClockingIn = !clockedInEmployees.includes(scannedEmployeeId)
+    
+    // Update the clocked in employees list
+    if (isClockingIn) {
+      setClockedInEmployees(prev => [...prev, scannedEmployeeId])
+    } else {
+      setClockedInEmployees(prev => prev.filter(emp => emp !== scannedEmployeeId))
+    }
+    
+    toast.success(`QR Code scanned! Employee ${scannedEmployeeId} clocked ${isClockingIn ? 'in' : 'out'}!`)
     setIsScanning(false)
   }
 
@@ -117,21 +135,33 @@ export default function ClockPage() {
                     <div className="flex flex-wrap justify-center gap-2">
                       <button
                         onClick={() => handleSimulateScan('EMP001')}
-                        className="bg-green-500 text-white px-3 py-1 text-sm rounded hover:bg-green-600 transition-colors"
+                        className={`px-3 py-1 text-sm rounded transition-colors ${
+                          clockedInEmployees.includes('EMP001') 
+                            ? 'bg-red-500 hover:bg-red-600 text-white' 
+                            : 'bg-green-500 hover:bg-green-600 text-white'
+                        }`}
                       >
-                        Scan EMP001 (John)
+                        {clockedInEmployees.includes('EMP001') ? 'Clock Out' : 'Clock In'} EMP001 (John)
                       </button>
                       <button
                         onClick={() => handleSimulateScan('EMP002')}
-                        className="bg-green-500 text-white px-3 py-1 text-sm rounded hover:bg-green-600 transition-colors"
+                        className={`px-3 py-1 text-sm rounded transition-colors ${
+                          clockedInEmployees.includes('EMP002') 
+                            ? 'bg-red-500 hover:bg-red-600 text-white' 
+                            : 'bg-green-500 hover:bg-green-600 text-white'
+                        }`}
                       >
-                        Scan EMP002 (Jane)
+                        {clockedInEmployees.includes('EMP002') ? 'Clock Out' : 'Clock In'} EMP002 (Jane)
                       </button>
                       <button
                         onClick={() => handleSimulateScan('EMP003')}
-                        className="bg-green-500 text-white px-3 py-1 text-sm rounded hover:bg-green-600 transition-colors"
+                        className={`px-3 py-1 text-sm rounded transition-colors ${
+                          clockedInEmployees.includes('EMP003') 
+                            ? 'bg-red-500 hover:bg-red-600 text-white' 
+                            : 'bg-green-500 hover:bg-green-600 text-white'
+                        }`}
                       >
-                        Scan EMP003 (Mike)
+                        {clockedInEmployees.includes('EMP003') ? 'Clock Out' : 'Clock In'} EMP003 (Mike)
                       </button>
                     </div>
                   </div>
@@ -194,14 +224,18 @@ export default function ClockPage() {
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
             <h3 className="text-lg font-medium text-gray-900 mb-2">Currently Clocked In</h3>
             <div className="flex flex-wrap justify-center gap-2">
-              {clockedInEmployees.map((emp) => (
-                <span
-                  key={emp}
-                  className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800"
-                >
-                  {emp}
-                </span>
-              ))}
+              {clockedInEmployees.length > 0 ? (
+                clockedInEmployees.map((emp) => (
+                  <span
+                    key={emp}
+                    className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800"
+                  >
+                    {emp}
+                  </span>
+                ))
+              ) : (
+                <span className="text-gray-500 text-sm">No employees currently clocked in</span>
+              )}
             </div>
           </div>
         </div>

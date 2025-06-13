@@ -97,38 +97,6 @@ cd employee-time-clock-v2
    - **API**: http://localhost:5000
    - **API Health**: http://localhost:5000/health
 
-
-
-🏗️ Project Structure
-.
-├── apps/
-│   ├── web/              # Next.js frontend application
-│   │   ├── src/
-│   │   │   ├── app/      # App router pages
-│   │   │   ├── components/
-│   │   │   ├── hooks/
-│   │   │   ├── lib/
-│   │   │   ├── services/
-│   │   │   └── types/
-│   │   └── ...
-│   │
-│   └── api/              # Express backend application
-│       ├── src/
-│       │   ├── controllers/
-│       │   ├── services/
-│       │   ├── models/
-│       │   ├── routes/
-│       │   ├── middleware/
-│       │   └── utils/
-│       └── ...
-│
-├── packages/
-│   ├── shared/           # Shared types and utilities
-│   └── ui/               # Shared UI components
-│
-├── docker/               # Docker configurations
-├── docs/                 # Documentation
-└── scripts/              # Utility scripts
 🧪 Testing
 bash# Run all tests
 pnpm test
